@@ -9,7 +9,7 @@
     "start": "serve -s dist"
   },
   "devDependencies": {
-    "@grpc/grpc-js": "~1.1.8",
+    "@grpc/grpc-js": "~1.8.22",
     "@grpc/proto-loader": "~0.5.4",
     "@open-rpc/client-js": "1.8.1",
     "@open-rpc/meta-schema": "1.14.9",
