@@ -1,0 +1,31 @@
+{
+  "name": "pactus-api-tester",
+  "version": "0.1.0",
+  "description": "Pactus API Tester",
+  "license": "MIT",
+  "main": "index.ts",
+  "scripts": {
+    "build": "webpack --mode=production",
+    "start": "serve -s dist"
+  },
+  "devDependencies": {
+    "@grpc/grpc-js": "~1.1.8",
+    "@grpc/proto-loader": "~0.5.4",
+    "@open-rpc/client-js": "1.8.1",
+    "@open-rpc/meta-schema": "1.14.9",
+    "@open-rpc/schema-utils-js": "2.1.2",
+    "async": "~3.2.3",
+    "google-protobuf": "~3.21.4",
+    "grpc-web": "~1.5.0",
+    "html-webpack-plugin": "^5.6.3",
+    "lodash": "^4.17.15",
+    "pactus-grpc": "1.7.4",
+    "pactus-jsonrpc": "1.7.4",
+    "serve": "^14.2.4",
+    "ts-loader": "^9.5.2",
+    "typescript": "^5.8.3",
+    "webpack": "~5.94.0",
+    "webpack-cli": "~5.1.1"
+  },
+  "packageManager": "yarn@1.22.22"
+}
