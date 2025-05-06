@@ -1,0 +1,93 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8"><title>Pactus API Tester</title><script src="bundle.js"></script><style>body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: #f5f5f5;
+    }
+
+    .section {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .section h2 {
+      margin-top: 0;
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+
+    input,
+    textarea,
+    button {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      box-sizing: border-box;
+    }
+
+    button {
+      margin-top: 10px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    .intro {
+      margin-bottom: 20px;
+      background: #e9f7ef;
+      border: 1px solid #c3e6cb;
+      padding: 15px;
+      border-radius: 8px;
+      color: #155724;
+    }</style><script defer="defer" src="bundle.js"></script></head><body><div class="intro"><h1>Pactus API Tester</h1>A simple tool to verify connectivity and responses from <a href="https://docs.pactus.org/api/">Pactus APIs</a> via <strong>gRPC-Web</strong>, <strong>JSON-RPC</strong>, and <strong>REST</strong> APIs.<br></div><div class="section"><h2>gRPC-Web</h2><label for="grpc-address">Node Address:</label> <input id="grpc-address" value="https://testnet2.pactus.org/grpc-web" placeholder="https://testnet2.pactus.org/grpc-web"> <label for="grpc-block-height">Block Height:</label> <input id="grpc-block-height" value="1" placeholder="e.g., 12345"> <label for="grpc-result">Response:</label> <textarea id="grpc-result" rows="6" readonly="readonly"></textarea> <button onclick="handleGrpcCall()">Call grpc-web.getBlockHash</button></div><div class="section"><h2>JSON-RPC</h2><label for="jsonrpc-type">Type:</label> <input id="jsonrpc-type" placeholder="https" value="https"> <label for="jsonrpc-address">Address:</label> <input id="jsonrpc-address" placeholder="testnet1.pactus.org/jsonrpc" value="testnet2.pactus.org/jsonrpc"> <label for="jsonrpc-port">Port:</label> <input type="number" id="jsonrpc-port" placeholder="80"> <label for="jsonrpc-block-height">Block Height:</label> <input id="jsonrpc-block-height" placeholder="e.g., 12345" value="1"> <label for="jsonrpc-result">Response:</label> <textarea id="jsonrpc-result" rows="6" readonly="readonly"></textarea> <button onclick="handleJsonRpcCall()">Send JSON-RPC Request</button></div><div class="section"><h2>REST</h2><label for="rest-address">Address:</label> <input id="rest-address" placeholder="https://bootstrap1.pactus.org/xyz"> <label for="rest-path">Path:</label> <input id="rest-path" placeholder="e.g., /block/latest"> <button onclick="handleRestCall()">Send REST Request</button> <label for="rest-result">Response:</label> <textarea id="rest-result" rows="6" readonly="readonly"></textarea></div><script>async function handleGrpcCall() {
+      const resultElement = document.getElementById('grpc-result');
+      resultElement.value = "Calling gRPC...";
+
+      try {
+        const address = document.getElementById('grpc-address').value;
+        const blockHeight = document.getElementById('grpc-block-height').value;
+
+        const result = await callGrpcWeb(address, Number(blockHeight));
+        resultElement.value = `Success: ${result}`;
+      } catch (err) {
+        resultElement.value = `Error: ${err.message || err.toString()}`;
+      }
+    }
+
+    async function handleJsonRpcCall() {
+      const resultElement = document.getElementById('jsonrpc-result');
+      resultElement.value = "Calling jsonrpc...";
+
+      try {
+        const type = document.getElementById('jsonrpc-type').value;
+        const address = document.getElementById('jsonrpc-address').value;
+        const port = document.getElementById('jsonrpc-port').value;
+        const blockHeight = document.getElementById('jsonrpc-block-height').value;
+
+        const result = await callJsonrpc(type, address, port, Number(blockHeight));
+        resultElement.value = `Success: ${JSON.stringify(result)}`;
+      } catch (err) {
+        resultElement.value = `Error: ${err.message || err.toString()}`;
+      }
+    }
+
+    // function handleRestCall() {
+    //   const address = document.getElementById('rest-address').value;
+    //   const path = document.getElementById('rest-path').value;
+    //
+    //   // Call the actual REST logic here (replace with real API call)
+    //   const restResponse = `REST Request sent to ${address}${path}. Result: <i>Success!</i>`;
+    //
+    //   // Display the response in the textarea
+    //   document.getElementById('rest-result').value = restResponse;
+    // }</script></body></html>
