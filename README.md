@@ -11,7 +11,7 @@ The tool supports connectivity checks for the following protocols:
 
 ## Live Demo
 
-Access the tester at: [https://api-tester.pactus.org](https://api-tester.pactus.org)
+Access the tester at: [https://ping.pactus.org](https://ping.pactus.org)
 
 ## How to Run Locally
 
