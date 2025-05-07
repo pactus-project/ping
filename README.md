@@ -7,7 +7,7 @@ The tool supports connectivity checks for the following protocols:
 
 * **gRPC-Web**
 * **JSON-RPC**
-* **REST**
+* **HTTP-API**
 
 ## Live Demo
 

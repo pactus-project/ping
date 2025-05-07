@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Pactus API Tester</title>
+  <title>Pactus Ping</title>
   <script src="bundle.js"></script>
   <style>
     body {
@@ -64,16 +64,16 @@
 <body>
 
   <div class="intro">
-    <h1>Pactus API Tester</h1>
-    A simple tool to verify connectivity and responses from <a href="https://docs.pactus.org/api/">Pactus APIs</a>
-    via <strong>gRPC-Web</strong>, <strong>JSON-RPC</strong>, and <strong>REST</strong> APIs.<br>
+    <h1>Pactus Ping</h1>
+    A simple tool to verify connectivity of <a href="https://docs.pactus.org/api/">Pactus APIs</a>
+    via <strong>gRPC-Web</strong>, <strong>JSON-RPC</strong>, and <strong>HTTP-APIs</strong> in browser.<br>
   </div>
 
   <div class="section">
     <h2>gRPC-Web</h2>
     <label for="grpc-address">Node Address:</label>
-    <input type="text" id="grpc-address" value="https://testnet2.pactus.org/grpc-web"
-      placeholder="https://testnet2.pactus.org/grpc-web">
+    <input type="text" id="grpc-address" value="https://testnet1.pactus.org/grpc-web"
+      placeholder="https://testnet1.pactus.org/grpc-web">
 
     <label for="grpc-block-height">Block Height:</label>
     <input type="text" id="grpc-block-height" value="1" placeholder="e.g., 12345">
@@ -81,7 +81,7 @@
     <label for="grpc-result">Response:</label>
     <textarea id="grpc-result" rows="6" readonly></textarea>
 
-    <button onclick="handleGrpcCall()">Call grpc-web.getBlockHash</button>
+    <button onclick="handleGrpcCall()">Call getBlockHash API</button>
   </div>
 
   <div class="section">
@@ -89,7 +89,8 @@
     <label for="jsonrpc-type">Type:</label>
     <input type="text" id="jsonrpc-type" placeholder="https" value="https">
     <label for="jsonrpc-address">Address:</label>
-    <input type="text" id="jsonrpc-address" placeholder="testnet1.pactus.org/jsonrpc" value="testnet2.pactus.org/jsonrpc">
+    <input type="text" id="jsonrpc-address" placeholder="testnet1.pactus.org/jsonrpc"
+      value="testnet1.pactus.org/jsonrpc">
     <label for="jsonrpc-port">Port:</label>
     <input type="number" id="jsonrpc-port" placeholder="80">
 
@@ -99,21 +100,21 @@
     <label for="jsonrpc-result">Response:</label>
     <textarea id="jsonrpc-result" rows="6" readonly></textarea>
 
-    <button onclick="handleJsonRpcCall()">Send JSON-RPC Request</button>
+    <button onclick="handleJsonRpcCall()">Call getBlockHash API</button>
   </div>
 
   <div class="section">
-    <h2>REST</h2>
-    <label for="rest-address">Address:</label>
-    <input type="text" id="rest-address" placeholder="https://bootstrap1.pactus.org/xyz">
+    <h2>HTTP API</h2>
 
-    <label for="rest-path">Path:</label>
-    <input type="text" id="rest-path" placeholder="e.g., /block/latest">
+    <label for="http-url">Request URL:</label>
+    <input type="text" id="http-url"
+      value="https://testnet1.pactus.org/http/api/pactus/blockchain/get_block_hash?height=1"
+      placeholder="https://testnet1.pactus.org/http/api/pactus/blockchain/get_block_hash?height=1">
 
-    <button onclick="handleRestCall()">Send REST Request</button>
+    <label for="http-result">Response:</label>
+    <textarea id="http-result" rows="6" readonly></textarea>
 
-    <label for="rest-result">Response:</label>
-    <textarea id="rest-result" rows="6" readonly></textarea>
+    <button onclick="handleHttpCall()">Call getBlockHash API</button>
   </div>
 
   <script>
@@ -149,16 +150,25 @@
       }
     }
 
-    // function handleRestCall() {
-    //   const address = document.getElementById('rest-address').value;
-    //   const path = document.getElementById('rest-path').value;
-    //
-    //   // Call the actual REST logic here (replace with real API call)
-    //   const restResponse = `REST Request sent to ${address}${path}. Result: <i>Success!</i>`;
-    //
-    //   // Display the response in the textarea
-    //   document.getElementById('rest-result').value = restResponse;
-    // }
+    async function handleHttpCall() {
+      const resultElement = document.getElementById('http-result');
+      resultElement.value = "Sending HTTP request...";
+
+      try {
+        const url = document.getElementById('http-url').value;
+
+        const response = await fetch(url);
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const result = await response.json();
+        resultElement.value = `Success (${response.status}): ${JSON.stringify(result, null, 2)}`;
+      } catch (err) {
+        resultElement.value = `Error: ${err.message || err.toString()}`;
+      }
+    }
   </script>
 
 </body>
